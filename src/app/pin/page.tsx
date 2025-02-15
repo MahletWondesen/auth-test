@@ -104,7 +104,7 @@ export default function PinLogin() {
           </form>
 
           <div className="text-center mt-4">
-            <a href="#" className="text-blue-700 font-semibold">
+            <a href="/forgetPin" className="text-blue-700 font-semibold">
               Forgot PIN?
             </a>
           </div>

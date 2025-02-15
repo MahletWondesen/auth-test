@@ -61,7 +61,7 @@ export default function OTPVerification() {
               style={{ width: "auto", height: "auto" }}
               priority
             />
-            <h2 className="text-2xl font-bold mt-4">Enter OTP</h2>
+            <h2 className="text-2xl font-bold text-gray-700 mt-4">Enter OTP</h2>
             <p className="text-gray-500 text-sm">
               Please enter the 6-digit OTP sent to your phone.
             </p>
