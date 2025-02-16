@@ -25,6 +25,12 @@
 //     }
 //   }, []);
 
+//   const validatePin = (pin: string) => {
+//     return /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(
+//       pin
+//     );
+//   };
+
 //   const mutation = useMutation({
 //     mutationFn: () => {
 //       if (!accessToken) {
@@ -37,6 +43,7 @@
 //     },
 //     onError: (error: any) => {
 //       setError(error.message);
+//       setPin(""); // Reset PIN input on error
 //     },
 //   });
 
@@ -66,6 +73,14 @@
 //           <form
 //             onSubmit={(e) => {
 //               e.preventDefault();
+//               if (!validatePin(pin)) {
+//                 setError(
+//                   "PIN must be at least 6 characters long and include a letter, a number, and a special character."
+//                 );
+//                 setPin("");
+//                 return;
+//               }
+//               setError("");
 //               mutation.mutate();
 //             }}
 //             className="space-y-4"
@@ -75,7 +90,6 @@
 //                 type={showPin ? "text" : "password"}
 //                 value={pin}
 //                 onChange={(e) => setPin(e.target.value)}
-//                 minLength={6}
 //                 placeholder="Enter PIN"
 //                 className="w-full px-4 py-3 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
 //               />
@@ -97,7 +111,7 @@
 //             <button
 //               type="submit"
 //               className="w-full bg-blue-900 text-white py-3 rounded-md font-bold hover:bg-blue-800 transition"
-//               disabled={mutation.isPending || pin.length < 6}
+//               disabled={mutation.isPending}
 //             >
 //               {mutation.isPending ? "Verifying..." : "Sign In"}
 //             </button>
@@ -164,27 +178,30 @@ export default function PinLogin() {
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="flex bg-white shadow-lg rounded-lg overflow-hidden w-3/4 max-w-4xl">
-        <div className="w-1/2 bg-blue-900 p-10 flex flex-col justify-center text-white">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <div className="flex flex-col sm:flex-row bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-4xl">
+        {/* Left Section */}
+        <div className="w-full sm:w-1/2 bg-blue-900 p-6 sm:p-10 flex flex-col justify-center text-white text-center">
           <h2 className="text-2xl font-bold">Welcome to</h2>
           <h1 className="text-3xl font-bold mt-2">
             Dashen Super App Dashboard
           </h1>
         </div>
 
-        <div className="w-1/2 p-10 flex flex-col justify-center">
-          <div className="text-center mb-6">
-            <Image
-              src="/images/dashen-logo.png"
-              alt="Dashen Bank"
-              width={80}
-              height={90}
-              priority
-            />
-            <h2 className="text-xl text-gray-700 font-bold mt-2">Login</h2>
-            <p className="text-gray-500">Enter your PIN to continue.</p>
-          </div>
+        {/* Right Section */}
+        <div className="w-full sm:w-1/2 p-6 sm:p-10 flex flex-col justify-center items-center">
+          <Image
+            src="/images/dashen-logo.png"
+            alt="Dashen Bank"
+            width={80}
+            height={90}
+            className="mb-4"
+            priority
+          />
+          <h2 className="text-xl text-gray-700 font-bold text-center">Login</h2>
+          <p className="text-gray-500 text-center">
+            Enter your PIN to continue.
+          </p>
 
           <form
             onSubmit={(e) => {
@@ -199,7 +216,7 @@ export default function PinLogin() {
               setError("");
               mutation.mutate();
             }}
-            className="space-y-4"
+            className="space-y-4 w-full max-w-sm"
           >
             <div className="relative">
               <input
@@ -222,7 +239,9 @@ export default function PinLogin() {
               </button>
             </div>
 
-            {error && <p className="text-red-500 text-sm">{error}</p>}
+            {error && (
+              <p className="text-red-500 text-sm text-center">{error}</p>
+            )}
 
             <button
               type="submit"

@@ -25,32 +25,33 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="flex w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
-        <div className="w-1/2 bg-blue-900 text-white flex flex-col items-center justify-center p-10">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <div className="flex flex-col sm:flex-row bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-3xl">
+        {/* Left Section */}
+        <div className="w-full sm:w-1/2 bg-blue-900 text-white flex flex-col items-center justify-center p-6 sm:p-10 text-center">
           <h2 className="text-2xl font-bold">Welcome to</h2>
-          <h1 className="text-3xl font-extrabold text-center">
+          <h1 className="text-3xl font-extrabold mt-2">
             Dashen Super App Dashboard
           </h1>
         </div>
 
-        <div className="w-1/2 p-10 flex flex-col items-center">
+        {/* Right Section */}
+        <div className="w-full sm:w-1/2 p-6 sm:p-10 flex flex-col items-center">
           <Image
             src="/images/dashen-logo.png"
             alt="Dashen Bank Logo"
-            width={100}
+            width={80}
             height={50}
-            style={{ width: "auto", height: "auto" }}
             priority
           />
-          <h2 className="text-gray-500 text-2xl font-bold mt-4">Dashboard</h2>
-          <p className="text-gray-500 text-sm text-center">
+          <h2 className="text-gray-700 text-2xl font-bold mt-4">Dashboard</h2>
+          <p className="text-gray-500 text-sm text-center mt-1">
             Manage your Dashen bank services from here!
           </p>
 
           <button
             onClick={handleLogout}
-            className="w-full bg-red-700 text-white px-4 py-2 rounded-md mt-6"
+            className="w-full bg-red-700 text-white py-3 rounded-md font-bold hover:bg-red-800 transition mt-6"
           >
             Logout
           </button>
