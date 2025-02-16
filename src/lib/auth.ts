@@ -13,7 +13,9 @@ export async function requestOTP(username: string) {
   );
 
   if (!response.ok) {
-    throw new Error("Failed to request OTP");
+    const errorData = await response.json();
+    const errorMessage = errorData?.message || "";
+    throw new Error(`Failed to request OTP: ${errorMessage}`);
   }
 
   const data = await response.json();

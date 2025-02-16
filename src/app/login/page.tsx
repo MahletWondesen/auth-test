@@ -9,6 +9,7 @@ import { requestOTP } from "@/lib/auth";
 
 export default function Login() {
   const [error, setError] = useState<string>("");
+  const [resetFormFunc, setResetFormFunc] = useState<(() => void) | null>(null); // Store resetForm function
   const router = useRouter();
 
   const mutation = useMutation({
@@ -22,13 +23,13 @@ export default function Login() {
     },
     onError: (error: any) => {
       setError(error.message);
+      if (resetFormFunc) resetFormFunc(); // Reset the form if function is stored
     },
   });
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="flex w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
-        {/* Left Section */}
         <div className="w-1/2 bg-blue-900 text-white flex flex-col items-center justify-center p-10">
           <h2 className="text-2xl font-bold">Welcome to</h2>
           <h1 className="text-3xl font-extrabold text-center">
@@ -52,7 +53,16 @@ export default function Login() {
 
           <Formik
             initialValues={{ username: "" }}
-            onSubmit={(values) => mutation.mutate(values.username)}
+            onSubmit={(values, { resetForm }) => {
+              if (values.username.trim().length < 3) {
+                setError("Username must be at least 3 characters long.");
+                resetForm();
+                return;
+              }
+              setError("");
+              setResetFormFunc(() => resetForm); // Store resetForm function
+              mutation.mutate(values.username);
+            }}
           >
             {({ values, handleChange, handleBlur }) => (
               <Form className="mt-6 w-full">
@@ -69,6 +79,9 @@ export default function Login() {
                       onBlur={handleBlur}
                     />
                   </div>
+                  {error && (
+                    <p className="text-red-500 text-sm mt-1">{error}</p>
+                  )}
                 </div>
 
                 <button
@@ -78,12 +91,6 @@ export default function Login() {
                 >
                   {mutation.isPending ? "Requesting OTP..." : "Get OTP"}
                 </button>
-
-                {error && (
-                  <p className="text-red-500 text-sm text-center mt-4">
-                    {error}
-                  </p>
-                )}
               </Form>
             )}
           </Formik>
