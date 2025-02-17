@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// This middleware runs before the request reaches the route handler
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
-  // Define paths that are protected and require authentication
-  const protectedPaths = ["/dashboard", "/pin", "/otp"];
+  const protectedPaths = ["/dashboard", "/pin", "/otp", "/forgotPin"];
 
   // If the path is one of the protected ones
   if (protectedPaths.some((protectedPath) => path.startsWith(protectedPath))) {
